@@ -1,22 +1,42 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+
 
 export default function Home() {
   const [articles, setArticles] = useState({ found: "pending" });
-
+  const [page, setPage] = useState(1);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    getValues
   } = useForm();
+
+  useEffect(() => {
+    console.log("entro")
+    setArticles({ found: "pending" });
+    const getOtherPage = async () => {
+      console.log(getValues("article"))
+    try {
+      let response = await fetch(
+        `https://beta.mejorconsalud.com/wp-json/mc/v3/posts?search=${getValues("article")}&orderby=relevance&page=${page}`
+      );
+      let data = await response.json();
+      setArticles({ ...data, found: "found" });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  getOtherPage()
+  }, [page]);
 
   const onSubmit = async (dataForm) => {
     try {
       let response = await fetch(
         `https://beta.mejorconsalud.com/wp-json/mc/v3/posts?search=${
           dataForm.article
-        }${dataForm.relevant ? `&relevant=${dataForm.relevant}` : ""}`
+        }${dataForm.relevant ? `&orderby=${dataForm.relevant}` : ""}`
       );
       let data = await response.json();
       if (data.size > 0) {
@@ -88,7 +108,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
       </form>
       {articles.found === "notfound" && (
         <>
@@ -108,6 +127,35 @@ export default function Home() {
             </Link>
           );
         })}
+
+      {/*  */}
+      <div class="flex space-x-2 justify-center">
+        <button
+          type="button"
+          data-mdb-ripple="true"
+          data-mdb-ripple-color="light"
+          class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+          disabled={articles.found === "pending"}
+          onClick={() => {
+            setPage(page - 1);
+          }}
+        >
+          -
+        </button>
+        {page}
+        <button
+          type="button"
+          data-mdb-ripple="true"
+          data-mdb-ripple-color="light"
+          class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+          disabled={articles.found === "pending"}
+          onClick={() => {
+            setPage(page + 1);
+          }}
+        >
+          +
+        </button>
+      </div>
     </>
   );
 }
