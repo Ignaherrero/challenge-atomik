@@ -3,18 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 9045",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "html-react-parser": "^1.4.10",
+    "moment": "^2.29.2",
+    "nanoid": "^3.3.2",
     "next": "12.1.4",
     "react": "18.0.0",
-    "react-dom": "18.0.0"
+    "react-dom": "18.0.0",
+    "react-hook-form": "^7.29.0"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.4",
     "eslint": "8.12.0",
-    "eslint-config-next": "12.1.4"
+    "eslint-config-next": "12.1.4",
+    "postcss": "^8.4.12",
+    "tailwindcss": "^3.0.23"
   }
 }
