@@ -3,7 +3,6 @@ import React from "react";
 import parse from "html-react-parser";
 import moment from "moment";
 export default function Posts({ post }) {
-  console.log(post);
   return (
     <>
       <Head>
@@ -20,8 +19,6 @@ export default function Posts({ post }) {
       <p>{post.bibliography}</p>
       <p>{post.categories.name}</p>
       <p>{moment(post.published).format("llll")}</p>
-      {/* {post.content}
-      {JSON.stringify(post.content)} */}
       {parse(post.content)}
     </>
   );
