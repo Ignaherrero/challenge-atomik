@@ -14,7 +14,7 @@ export default function Home() {
   } = useForm();
 
   useEffect(() => {
-    console.log("entro")
+
     setArticles({ found: "pending" });
     const getOtherPage = async () => {
       console.log(getValues("article"))
@@ -29,7 +29,7 @@ export default function Home() {
     }
   }
   getOtherPage()
-  }, [page]);
+  }, [page, getValues]);
 
   const onSubmit = async (dataForm) => {
     try {
@@ -56,12 +56,12 @@ export default function Home() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div class="flex justify-center">
-          <div class="mb-3 xl:w-96">
-            <div class="input-group relative flex flex-wrap items-stretch w-full mb-4">
+        <div className="flex justify-center">
+          <div className="mb-3 xl:w-96">
+            <div className="input-group relative flex flex-wrap items-stretch w-full mb-4">
               <input
                 type="search"
-                class="form-control relative flex-auto min-w-0 block px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                className="form-control relative flex-auto min-w-0 block px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                 placeholder="Search"
                 aria-label="Search"
                 aria-describedby="button-addon2"
@@ -69,7 +69,7 @@ export default function Home() {
                 placeholder="ingresar articulo"
               />
               <button
-                class="btn inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center"
+                className="btn inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center"
                 type="button"
                 id="button-addon2"
                 type="submit"
@@ -79,7 +79,7 @@ export default function Home() {
                   focusable="false"
                   data-prefix="fas"
                   data-icon="search"
-                  class="w-4"
+                  className="w-4"
                   role="img"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 512 512"
@@ -91,17 +91,17 @@ export default function Home() {
                 </svg>
               </button>
             </div>
-            <div class="form-check">
+            <div className="form-check">
               <input
                 {...register("relevant")}
                 type="checkbox"
                 value="relevance"
-                class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                 id="flexCheckDefault"
               />
               <label
-                class="form-check-label inline-block text-gray-800"
-                for="flexCheckDefault"
+                className="form-check-label inline-block text-gray-800"
+                htmlFor="flexCheckDefault"
               >
                 Relevante
               </label>
@@ -129,12 +129,12 @@ export default function Home() {
         })}
 
       {/*  */}
-      <div class="flex space-x-2 justify-center">
+      <div className="flex space-x-2 justify-center">
         <button
           type="button"
           data-mdb-ripple="true"
           data-mdb-ripple-color="light"
-          class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+          className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
           disabled={articles.found === "pending"}
           onClick={() => {
             setPage(page - 1);
@@ -147,7 +147,7 @@ export default function Home() {
           type="button"
           data-mdb-ripple="true"
           data-mdb-ripple-color="light"
-          class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+          className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
           disabled={articles.found === "pending"}
           onClick={() => {
             setPage(page + 1);
