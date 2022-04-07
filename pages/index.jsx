@@ -1,7 +1,5 @@
-import { nanoid } from "nanoid";
-import Head from "next/head";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function Home() {
@@ -13,34 +11,12 @@ export default function Home() {
     formState: { errors },
   } = useForm();
 
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = async (dataForm) => {
-    try {
-      let response = await fetch(
-        `https://beta.mejorconsalud.com/wp-json/mc/v3/posts?search=${dataForm?.article}`
-      );
-      let data = await response.json();
-      if (data.size > 0) {
-        setArticles({ ...data, found: "found" });
-      } else {
-        response = await fetch(
-          "https://beta.mejorconsalud.com/wp-json/mc/v3/posts?orderby=date&order=desc"
-        );
-        data = await response.json();
-        setArticles({ ...data, found: "notfound" });
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const onSubmit = async (dataForm) => {
     try {
       let response = await fetch(
-        `https://beta.mejorconsalud.com/wp-json/mc/v3/posts?search=${dataForm.article}&orderby=${dataForm.relevant}`
+        `https://beta.mejorconsalud.com/wp-json/mc/v3/posts?search=${
+          dataForm.article
+        }${dataForm.relevant ? `&relevant=${dataForm.relevant}` : ""}`
       );
       let data = await response.json();
       if (data.size > 0) {
@@ -60,7 +36,10 @@ export default function Home() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("article")} placeholder="ingresar articulo" />
+        <input
+          {...register("article", { required: true, maxLength: 80 })}
+          placeholder="ingresar articulo"
+        />
         <p>
           <input {...register("relevant")} type="checkbox" value="relevance" />
           relevante
@@ -88,14 +67,3 @@ export default function Home() {
     </>
   );
 }
-
-// export async function getServerSideProps() {
-//   const response = await fetch(
-//     "https://beta.mejorconsalud.com/wp-json/mc/v3/posts?orderby=date&order=desc"
-//   );
-//   const articles = await response.json();
-
-//   return {
-//     props: { articles } || null,
-//   };
-// }
