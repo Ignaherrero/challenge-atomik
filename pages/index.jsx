@@ -1,17 +1,21 @@
+import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-const statusFetch={
-    pending:"pending",
-    resolved:"resolved",
-    idle:"idle",
-    found:"found",
-    notfound:"notfound",
-}
+const statusFetch = {
+  pending: "pending",
+  resolved: "resolved",
+  idle: "idle",
+  found: "found",
+  notfound: "notfound",
+};
 
 export default function Home() {
-  const [articles, setArticles] = useState({data:[], found: statusFetch.idle });
+  const [articles, setArticles] = useState({
+    data: [],
+    found: statusFetch.idle,
+  });
   const [page, setPage] = useState(1);
   const {
     register,
@@ -31,7 +35,9 @@ export default function Home() {
           let response = await fetch(
             `https://beta.mejorconsalud.com/wp-json/mc/v3/posts?search=${getValues(
               "article"
-            )}&orderby=relevance&page=${page}`
+            )}${
+              getValues("relevant") ? `&orderby=${dataForm.relevant}` : ""
+            }&page=${page}`
           );
           let data = await response.json();
           setArticles({ ...data, found: statusFetch.found });
@@ -128,20 +134,43 @@ export default function Home() {
           <h2>Ultimos articulos publicados</h2>
         </>
       )}
-      {articles?.data &&
-        articles.data.map((article) => {
-          return (
-            <Link
-              href={`/posts/[id]`}
-              as={`/posts/${article.id}`}
-              key={article.id}
-            >
-              {article.title}
-            </Link>
-          );
-        })}
-
-      {/* {getValues("article").length > 0 && articles.found !== "pending" ? ( */}
+      <div className="flex justify-center flex-wrap ">
+        {articles?.data &&
+          articles.data.map((article) => {
+            return (
+              <div
+                className="rounded-lg shadow-lg bg-white max-w-sm"
+                key={article.id}
+              >
+                <a href="#!">
+                  <Image
+                    className="rounded-t-lg object-fill h-64 w-full"
+                    src={article.featured_media?.thumbnail}
+                    alt=""
+                    width={384}
+                    height={200}
+                  />
+                </a>
+                <div className="p-6">
+                  <h5 className="text-gray-900 text-xl font-medium mb-2">
+                    {article.title}
+                  </h5>
+                  <p className="text-gray-700 text-base mb-4">
+                    Some quick example text to build on the card title and make
+                    up the bulk of the cards content.
+                  </p>
+                  <Link
+                    href={`/posts/[id]`}
+                    as={`/posts/${article.id}`}
+                    key={article.id}
+                  >
+                    Visitar
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
+      </div>
 
       {articles?.data.length > 0 && (
         <div className="flex space-x-2 justify-center">
