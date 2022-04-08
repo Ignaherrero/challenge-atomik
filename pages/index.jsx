@@ -2,35 +2,50 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
+const statusFetch={
+    pending:"pending",
+    resolved:"resolved",
+    idle:"idle",
+    found:"found",
+    notfound:"notfound",
+}
 
 export default function Home() {
-  const [articles, setArticles] = useState({ found: "pending" });
+  const [articles, setArticles] = useState({data:[], found: statusFetch.idle });
   const [page, setPage] = useState(1);
   const {
     register,
     handleSubmit,
     formState: { errors },
-    getValues
-  } = useForm();
+    getValues,
+  } = useForm({
+    article: "",
+  });
 
   useEffect(() => {
-    setArticles({ found: "pending" });
     const getOtherPage = async () => {
-      console.log(getValues("article"))
-    try {
-      let response = await fetch(
-        `https://beta.mejorconsalud.com/wp-json/mc/v3/posts?search=${getValues("article")}&orderby=relevance&page=${page}`
-      );
-      let data = await response.json();
-      setArticles({ ...data, found: "found" });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  getOtherPage()
+      if (getValues("article").length > 0) {
+        setArticles({ data: [], found: statusFetch.pending });
+        console.log(getValues("article"));
+        try {
+          let response = await fetch(
+            `https://beta.mejorconsalud.com/wp-json/mc/v3/posts?search=${getValues(
+              "article"
+            )}&orderby=relevance&page=${page}`
+          );
+          let data = await response.json();
+          setArticles({ ...data, found: statusFetch.found });
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    };
+
+    getOtherPage();
   }, [page, getValues]);
 
   const onSubmit = async (dataForm) => {
+    setArticles({ data: [], found: statusFetch.pending });
     try {
       let response = await fetch(
         `https://beta.mejorconsalud.com/wp-json/mc/v3/posts?search=${
@@ -39,14 +54,15 @@ export default function Home() {
       );
       let data = await response.json();
       if (data.size > 0) {
-        setArticles({ ...data, found: "found" });
+        setArticles({ ...data, found: statusFetch.found });
       } else {
         response = await fetch(
           "https://beta.mejorconsalud.com/wp-json/mc/v3/posts?orderby=date&order=desc"
         );
         data = await response.json();
-        setArticles({ ...data, found: "notfound" });
+        setArticles({ ...data, found: statusFetch.notFound });
       }
+      setPage(1);
     } catch (err) {
       console.log(err);
     }
@@ -106,7 +122,7 @@ export default function Home() {
           </div>
         </div>
       </form>
-      {articles.found === "notfound" && (
+      {articles.found === statusFetch.notFound && (
         <>
           <h1>No se encontro el articulo</h1>
           <h2>Ultimos articulos publicados</h2>
@@ -125,36 +141,42 @@ export default function Home() {
           );
         })}
 
-      {articles.found === "found" ? (
+      {/* {getValues("article").length > 0 && articles.found !== "pending" ? ( */}
+
+      {articles?.data.length > 0 && (
         <div className="flex space-x-2 justify-center">
-          <button
-            type="button"
-            data-mdb-ripple="true"
-            data-mdb-ripple-color="light"
-            className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-            disabled={articles.found === "pending"}
-            onClick={() => {
-              setPage(page - 1);
-            }}
-          >
-            -
-          </button>
+          {page > 1 && (
+            <button
+              type="button"
+              data-mdb-ripple="true"
+              data-mdb-ripple-color="light"
+              className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+              disabled={articles.found === statusFetch.pending}
+              onClick={() => {
+                setPage(page - 1);
+              }}
+            >
+              -
+            </button>
+          )}
           {page}
-          <button
-            type="button"
-            data-mdb-ripple="true"
-            data-mdb-ripple-color="light"
-            className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-            onClick={() => {
-              setPage(page + 1);
-            }}
-          >
-            +
-          </button>
+          {page < articles.pages && (
+            <button
+              type="button"
+              data-mdb-ripple="true"
+              data-mdb-ripple-color="light"
+              className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+              onClick={() => {
+                setPage(page + 1);
+              }}
+            >
+              +
+            </button>
+          )}
         </div>
-      ):(
-        <p>cargando...</p>
       )}
+
+      {articles.found === statusFetch.pending && <p>cargando...</p>}
     </>
   );
 }
