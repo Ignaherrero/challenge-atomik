@@ -35,7 +35,7 @@ export default function Home() {
             `https://beta.mejorconsalud.com/wp-json/mc/v3/posts?search=${getValues(
               "article"
             )}${
-              getValues("relevant") ? `&orderby=${dataForm.relevant}` : ""
+              getValues("relevant") ? `&orderby=${getValues("relevant")}` : ""
             }&page=${page}`
           );
           let data = await response.json();
