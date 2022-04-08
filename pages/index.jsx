@@ -30,7 +30,6 @@ export default function Home() {
     const getOtherPage = async () => {
       if (getValues("article").length > 0) {
         setArticles({ data: [], found: statusFetch.pending });
-        console.log(getValues("article"));
         try {
           let response = await fetch(
             `https://beta.mejorconsalud.com/wp-json/mc/v3/posts?search=${getValues(
