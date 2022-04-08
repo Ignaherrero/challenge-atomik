@@ -136,8 +136,8 @@ export default function Home() {
       </form>
       {articles.found === statusFetch.notFound && (
         <>
-          <h1>No se encontro el articulo</h1>
-          <h2>Ultimos articulos publicados</h2>
+          <h1 className="text-center">No se encontro el articulo</h1>
+          <h2 className="text-center">Ultimos articulos publicados</h2>
         </>
       )}
       <div className="flex justify-center flex-wrap ">
@@ -145,7 +145,7 @@ export default function Home() {
           articles.data.map((article) => {
             return (
               <div
-                className="rounded-lg shadow-lg bg-white max-w-sm"
+                className="rounded-lg shadow-lg bg-white max-w-sm m-2"
                 key={article.id}
               >
                 <a href="#!">
@@ -162,8 +162,7 @@ export default function Home() {
                     {article.title}
                   </h5>
                   <p className="text-gray-700 text-base mb-4">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the cards content.
+                    {article.categories[0].description}
                   </p>
                   <Link
                     href={`/posts/[id]`}
@@ -211,7 +210,9 @@ export default function Home() {
         </div>
       )}
 
-      {articles.found === statusFetch.pending && <p>cargando...</p>}
+      {articles.found === statusFetch.pending && (
+        <p className="text-center">cargando...</p>
+      )}
     </>
   );
 }
