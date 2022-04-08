@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -75,6 +76,10 @@ export default function Home() {
 
   return (
     <>
+      <Head>
+        <title>MejorConsalud</title>
+      </Head>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex justify-center">
           <div className="mb-3 xl:w-96">
@@ -91,6 +96,7 @@ export default function Home() {
                 className="btn inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center"
                 id="button-addon2"
                 type="submit"
+                aria-label="buscador"
               >
                 <svg
                   aria-hidden="true"
