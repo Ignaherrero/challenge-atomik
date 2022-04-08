@@ -78,6 +78,7 @@ export default function Home() {
     <>
       <Head>
         <title>MejorConsalud</title>
+        <meta name="description" content="contenido saludable" />
       </Head>
 
       <form onSubmit={handleSubmit(onSubmit)}>
