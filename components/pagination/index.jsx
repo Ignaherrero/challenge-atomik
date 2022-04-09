@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useCounter } from "../../helper/useCounter";
 
 const statusFetch = {
   pending: "pending",
@@ -8,8 +9,14 @@ const statusFetch = {
   notfound: "notfound",
 };
 
-export default function Pagination({ articles, getValues, setArticles, page, setPage }) {
-
+export default function Pagination({
+  articles,
+  getValues,
+  setArticles,
+  counter,
+  increment,
+  decrement,
+}) {
   useEffect(() => {
     const getOtherPage = async () => {
       if (getValues("article")?.length > 0) {
@@ -20,7 +27,7 @@ export default function Pagination({ articles, getValues, setArticles, page, set
               "article"
             )}${
               getValues("relevant") ? `&orderby=${getValues("relevant")}` : ""
-            }&page=${page}`
+            }&page=${counter}`
           );
           let data = await response.json();
           setArticles({ ...data, found: statusFetch.found });
@@ -31,13 +38,13 @@ export default function Pagination({ articles, getValues, setArticles, page, set
     };
 
     getOtherPage();
-  }, [page, getValues, setArticles]);
+  }, [counter, getValues, setArticles]);
 
   return (
     <>
       {articles?.data.length > 0 && (
         <div className="flex space-x-2 justify-center m-6">
-          {page > 1 && (
+          {counter > 1 && (
             <button
               type="button"
               data-mdb-ripple="true"
@@ -45,21 +52,21 @@ export default function Pagination({ articles, getValues, setArticles, page, set
               className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
               disabled={articles.found === statusFetch.pending}
               onClick={() => {
-                setPage(page - 1);
+                decrement();
               }}
             >
               -
             </button>
           )}
-          <p className="self-center	">{page}</p>
-          {page < articles.pages && (
+          <p className="self-center	">{counter}</p>
+          {counter < articles.pages && (
             <button
               type="button"
               data-mdb-ripple="true"
               data-mdb-ripple-color="light"
               className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
               onClick={() => {
-                setPage(page + 1);
+                increment();
               }}
             >
               +

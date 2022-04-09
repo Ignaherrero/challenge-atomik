@@ -6,7 +6,7 @@ const statusFetch = {
   notfound: "notfound",
 };
 
-export default function Search({ setArticles, articles, handleSubmit, register, setPage }) {
+export default function Search({ setArticles, articles, handleSubmit, register, reset }) {
   const onSubmit = async (dataForm) => {
     setArticles({ data: [], found: statusFetch.pending });
     try {
@@ -25,7 +25,7 @@ export default function Search({ setArticles, articles, handleSubmit, register, 
         data = await response.json();
         setArticles({ ...data, found: statusFetch.notFound });
       }
-      setPage(1);
+      reset();
     } catch (err) {
       console.log(err);
     }
@@ -33,7 +33,7 @@ export default function Search({ setArticles, articles, handleSubmit, register, 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-5">
           <div className="mb-3 xl:w-96">
             <div className="input-group relative flex flex-wrap items-stretch w-full mb-4">
               <input

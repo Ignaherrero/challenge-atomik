@@ -31,8 +31,8 @@ export default function Card({ articles }) {
               >
                 <a href="#!">
                   <Image
-                    className="rounded-t-lg object-fill h-64 w-full"
-                    src={article.featured_media?.thumbnail}
+                    className="rounded-t-lg object-cover h-64 w-full"
+                    src={article.featured_media?.medium}
                     alt=""
                     width={384}
                     height={200}
