@@ -172,8 +172,8 @@ export default function Home() {
                       href={`/posts/[id]`}
                       as={`/posts/${article.id}`}
                       key={article.id}
-                     >
-                       Visitar
+                    >
+                      Visitar
                     </Link>
                   </div>
                 </div>
@@ -198,7 +198,7 @@ export default function Home() {
               -
             </button>
           )}
-          {page}
+          <p className="self-center	">{page}</p>
           {page < articles.pages && (
             <button
               type="button"
