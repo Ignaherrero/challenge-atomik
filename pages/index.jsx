@@ -1,10 +1,11 @@
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import Card from "../components/card";
-import Pagination from "../components/pagination";
-import Search from "../components/search";
 import { useCounter } from "../helper/useCounter";
+const Card=dynamic(()=>import("../components/card"));
+const Pagination=dynamic(()=>import("../components/pagination"));
+const Search=dynamic(()=>import("../components/search"));
 
 const statusFetch = {
   pending: "pending",
