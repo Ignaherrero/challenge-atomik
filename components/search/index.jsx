@@ -6,7 +6,7 @@ const statusFetch = {
   notfound: "notfound",
 };
 
-export default function Search({ setArticles, articles, handleSubmit, register }) {
+export default function Search({ setArticles, articles, handleSubmit, register, setPage }) {
   const onSubmit = async (dataForm) => {
     setArticles({ data: [], found: statusFetch.pending });
     try {
@@ -25,7 +25,7 @@ export default function Search({ setArticles, articles, handleSubmit, register }
         data = await response.json();
         setArticles({ ...data, found: statusFetch.notFound });
       }
-      // setPage(1);
+      setPage(1);
     } catch (err) {
       console.log(err);
     }

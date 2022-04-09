@@ -8,8 +8,7 @@ const statusFetch = {
   notfound: "notfound",
 };
 
-export default function Pagination({ articles, getValues, setArticles }) {
-  const [page, setPage] = useState(1);
+export default function Pagination({ articles, getValues, setArticles, page, setPage }) {
 
   useEffect(() => {
     const getOtherPage = async () => {

@@ -18,7 +18,7 @@ export default function Home() {
     data: [],
     found: statusFetch.idle,
   });
-
+  const [page, setPage] = useState(1);
   const {
     register,
     handleSubmit,
@@ -35,7 +35,7 @@ export default function Home() {
         <meta name="description" content="contenido saludable" />
       </Head>
 
-      <Search articles={articles} setArticles={setArticles} handleSubmit={handleSubmit} register={register}/>
+      <Search articles={articles} setArticles={setArticles} handleSubmit={handleSubmit} register={register} setPage={setPage}/>
 
       <Card articles={articles} />
 
@@ -43,6 +43,8 @@ export default function Home() {
         articles={articles}
         getValues={getValues}
         setArticles={setArticles}
+        page={page}
+        setPage={setPage}
       />
     </>
   );
