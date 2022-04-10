@@ -3,6 +3,7 @@ import React from "react";
 import parse from "html-react-parser";
 import moment from "moment";
 export default function Posts({ post }) {
+
   return (
     <>
       <Head>
@@ -27,17 +28,27 @@ export default function Posts({ post }) {
           <div className="flex items-center mb-6">
             <div>
               <span>
-                {moment(post.published).format("llll")}
-                {post.author && (
-                  <>
-                    <span>
+                {post.author ? (
+                  <div className="flex items-center mb-6">
+                    <img
+                      src={post.author.picture}
+                      className="rounded-full mr-2 h-8"
+                      alt=""
+                      loading="lazy"
+                    />
+                    <div>
+                      <span>
+                        {" "}
+                        Published {moment(post.published).format(
+                          "llll"
+                        )} by{" "}
+                      </span>
                       <a href="#!" className="font-medium">
-                        {post.author}
+                        {post.author.name}
                       </a>
-                      by{" "}
-                    </span>
-                  </>
-                )}
+                    </div>
+                  </div>
+                ) : moment(post.published).format("llll")}
               </span>
             </div>
           </div>
