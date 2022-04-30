@@ -3,6 +3,7 @@ import React from "react";
 import parse from "html-react-parser";
 import moment from "moment";
 import Image from "next/image";
+import { getDateDayMonthYear } from "../../helper/data";
 
 export default function Posts({ post }) {
   return (
@@ -46,12 +47,10 @@ export default function Posts({ post }) {
                       width="32px"
                       height="32px"
                     />
-                    <div>
+                    <div className="ml-2">
                       <span>
                         {" "}
-                        Published {moment(post.published).format(
-                          "llll"
-                        )} by{" "}
+                        Publicado {getDateDayMonthYear(post.published)} by{" "}
                       </span>
                       <a href="#!" className="font-medium">
                         {post.author.name}
