@@ -29,6 +29,8 @@ export default function Card({ articles }) {
                     alt=""
                     width={384}
                     height={200}
+                    priority={true}
+                    loading="eager"
                   />
                 </a>
                 <div className="pt-6 pl-6 pr-6 pb-10">
