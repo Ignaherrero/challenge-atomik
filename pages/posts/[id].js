@@ -26,6 +26,7 @@ export default function Posts({ post }) {
               alt=""
               width="921px"
               height="613px"
+              loading="eager"
               priority={true}
               className="w-3/5 m-auto shadow-lg rounded-lg mb-6 object-cover"
             />
@@ -39,7 +40,7 @@ export default function Posts({ post }) {
                       src={post.author.picture}
                       className="rounded-full mr-2 h-8"
                       alt=""
-                      loading="lazy"
+                      loading="eager"
                       width="32px"
                       height="32px"
                     />
