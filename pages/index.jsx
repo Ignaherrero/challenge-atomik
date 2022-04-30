@@ -2,18 +2,13 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { statusFetch } from "../helper/dictionary";
 import { useCounter } from "../helper/useCounter";
-const Card=dynamic(()=>import("../components/card"));
-const Pagination=dynamic(()=>import("../components/pagination"));
-const Search=dynamic(()=>import("../components/search"));
+const Card = dynamic(() => import("../components/card"));
+const Pagination = dynamic(() => import("../components/pagination"));
+const Search = dynamic(() => import("../components/search"));
 
-const statusFetch = {
-  pending: "pending",
-  resolved: "resolved",
-  idle: "idle",
-  found: "found",
-  notfound: "notfound",
-};
+
 
 export default function Home() {
   const [articles, setArticles] = useState({
@@ -57,4 +52,11 @@ export default function Home() {
       />
     </>
   );
+}
+
+export async function getStaticProps() {
+  return {
+    props: {},
+    revalidate: 259200,
+  };
 }

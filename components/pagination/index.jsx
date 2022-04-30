@@ -1,13 +1,5 @@
-import { useEffect, useState } from "react";
-import { useCounter } from "../../helper/useCounter";
-
-const statusFetch = {
-  pending: "pending",
-  resolved: "resolved",
-  idle: "idle",
-  found: "found",
-  notfound: "notfound",
-};
+import { useEffect } from "react";
+import { statusFetch } from "../../helper/dictionary";
 
 export default function Pagination({
   articles,

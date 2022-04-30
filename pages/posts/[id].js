@@ -2,8 +2,9 @@ import Head from "next/head";
 import React from "react";
 import parse from "html-react-parser";
 import moment from "moment";
-export default function Posts({ post }) {
+import Image from "next/image";
 
+export default function Posts({ post }) {
   return (
     <>
       <Head>
@@ -19,22 +20,28 @@ export default function Posts({ post }) {
 
       <div className="container my-10 mx-auto">
         <section className="mb-32 text-gray-800">
-          <img
-            src={post.featured_media.large}
-            className="w-3/5 m-auto shadow-lg rounded-lg mb-6 object-cover"
-            alt=""
-          />
-
+          <div className="flex justify-center">
+            <Image
+              src={post.featured_media.large}
+              alt=""
+              width="921px"
+              height="613px"
+              priority={true}
+              className="w-3/5 m-auto shadow-lg rounded-lg mb-6 object-cover"
+            />
+          </div>
           <div className="flex items-center mb-6">
             <div>
               <span>
                 {post.author ? (
-                  <div className="flex items-center mb-6">
-                    <img
+                  <div className="flex items-center mt-6">
+                    <Image
                       src={post.author.picture}
                       className="rounded-full mr-2 h-8"
                       alt=""
                       loading="lazy"
+                      width="32px"
+                      height="32px"
                     />
                     <div>
                       <span>
@@ -48,7 +55,9 @@ export default function Posts({ post }) {
                       </a>
                     </div>
                   </div>
-                ) : moment(post.published).format("llll")}
+                ) : (
+                  moment(post.published).format("llll")
+                )}
               </span>
             </div>
           </div>

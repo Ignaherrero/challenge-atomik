@@ -1,33 +1,35 @@
-const statusFetch = {
-  pending: "pending",
-  resolved: "resolved",
-  idle: "idle",
-  found: "found",
-  notfound: "notfound",
-};
+import { statusFetch } from "../../helper/dictionary";
 
-export default function Search({ setArticles, articles, handleSubmit, register, reset }) {
+export default function Search({
+  setArticles,
+  articles,
+  handleSubmit,
+  register,
+  reset,
+}) {
   const onSubmit = async (dataForm) => {
-    setArticles({ data: [], found: statusFetch.pending });
-    try {
-      let response = await fetch(
-        `https://beta.mejorconsalud.com/wp-json/mc/v3/posts?search=${
-          dataForm.article
-        }${dataForm.relevant ? `&orderby=${dataForm.relevant}` : ""}`
-      );
-      let data = await response.json();
-      if (data.size > 0) {
-        setArticles({ ...data, found: statusFetch.found });
-      } else {
-        response = await fetch(
-          "https://beta.mejorconsalud.com/wp-json/mc/v3/posts?orderby=date&order=desc"
+    if (statusFetch.pending) {
+      setArticles({ data: [], found: statusFetch.pending });
+      try {
+        let response = await fetch(
+          `https://beta.mejorconsalud.com/wp-json/mc/v3/posts?search=${
+            dataForm.article
+          }${dataForm.relevant ? `&orderby=${dataForm.relevant}` : ""}`
         );
-        data = await response.json();
-        setArticles({ ...data, found: statusFetch.notFound });
+        let data = await response.json();
+        if (data.size > 0) {
+          setArticles({ ...data, found: statusFetch.found });
+        } else {
+          response = await fetch(
+            "https://beta.mejorconsalud.com/wp-json/mc/v3/posts?orderby=date&order=desc"
+          );
+          data = await response.json();
+          setArticles({ ...data, found: statusFetch.notFound });
+        }
+        reset();
+      } catch (err) {
+        console.log(err);
       }
-      reset();
-    } catch (err) {
-      console.log(err);
     }
   };
   return (

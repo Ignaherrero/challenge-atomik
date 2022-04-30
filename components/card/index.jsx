@@ -1,13 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-
-const statusFetch = {
-  pending: "pending",
-  resolved: "resolved",
-  idle: "idle",
-  found: "found",
-  notfound: "notfound",
-};
+import { statusFetch } from "../../helper/dictionary";
 
 export default function Card({ articles }) {
   return (
@@ -51,7 +44,7 @@ export default function Card({ articles }) {
                       as={`/posts/${article.id}`}
                       key={article.id}
                     >
-                      Visitar
+                      Leer mas
                     </Link>
                   </div>
                 </div>
