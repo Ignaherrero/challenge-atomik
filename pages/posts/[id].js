@@ -9,12 +9,14 @@ export default function Posts({ post }) {
     <>
       <Head>
         <title>{post.title}</title>
+        <meta name="title" content={post.metas.title} />
+        <meta name="description" content={post.metas.description} />
+        <meta name="image" content={post.metas.image} />
         <meta property="og:title" content={post.metas.title} />
         <meta property="og:type" content={post.metas.type} />
         <meta property="og:description" content={post.metas.description} />
         <meta property="og:image" content={post.metas.image} />
         <meta property="og:site_name" content={post.metas.site_name} />
-        <meta property="og:description" content={post.metas.description} />
         <meta property="og:image" content={post.metas.image} />
       </Head>
 
