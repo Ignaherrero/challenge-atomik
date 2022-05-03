@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { statusFetch } from "../../helper/dictionary";
+import { getOtherPage } from "../../helper/fetchs";
 
 export default function Pagination({
   articles,
@@ -9,27 +10,24 @@ export default function Pagination({
   increment,
   decrement,
 }) {
+  const { found, pending } = statusFetch;
+
   useEffect(() => {
-    const getOtherPage = async () => {
+    const getData = async () => {
       if (getValues("article")?.length > 0) {
-        setArticles({ data: [], found: statusFetch.pending });
-        try {
-          let response = await fetch(
-            `https://beta.mejorconsalud.com/wp-json/mc/v3/posts?search=${getValues(
-              "article"
-            )}${
-              getValues("relevant") ? `&orderby=${getValues("relevant")}` : ""
-            }&page=${counter}`
-          );
-          let data = await response.json();
-          setArticles({ ...data, found: statusFetch.found });
-        } catch (err) {
-          console.log(err);
-        }
+        setArticles({ data: [], found: pending });
+        const args = {
+          relevant: getValues("relevant"),
+          article: getValues("article"),
+          counter,
+        };
+        const data = await getOtherPage(args);
+        const { data: response } = data;
+        setArticles({ ...response, found: found });
       }
     };
 
-    getOtherPage();
+    getData();
   }, [counter, getValues, setArticles]);
 
   return (
@@ -42,7 +40,7 @@ export default function Pagination({
               data-mdb-ripple="true"
               data-mdb-ripple-color="light"
               className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-              disabled={articles.found === statusFetch.pending}
+              disabled={articles.found === pending}
               onClick={() => {
                 decrement();
               }}

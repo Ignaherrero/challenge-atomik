@@ -47,4 +47,34 @@ const getAllLastArticles = async () => {
   return data;
 };
 
-export { searchForArticles, getAllLastArticles };
+const getOtherPage = async ({ article, counter, relevant }) => {
+  const data = {};
+  const params = {};
+  try {
+    if (relevant) {
+      params = {
+        search: article,
+        orderby: relevant,
+        page: counter,
+      };
+    } else {
+      params = {
+        search: article,
+        page: counter,
+      };
+    }
+    data = await axios({
+      method: "get",
+      url: `https://beta.mejorconsalud.com/wp-json/mc/v3/posts?`,
+      params: {
+        ...params,
+      },
+      responseType: "json",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+  return data;
+};
+
+export { searchForArticles, getAllLastArticles, getOtherPage };
