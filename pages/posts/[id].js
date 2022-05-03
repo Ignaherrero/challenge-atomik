@@ -9,12 +9,13 @@ export default function Posts({
   post: {
     author: { name, picture },
     metas: { title, description, image, type, site_name },
-    featured_media: { large },
+    featured_media,
     content,
     bibliography,
     published,
   },
 }) {
+  const sizeImages = Object.getOwnPropertyNames(featured_media);
   return (
     <>
       <Head>
@@ -34,7 +35,7 @@ export default function Posts({
         <section className="mb-32 text-gray-800">
           <div className="flex justify-center">
             <Image
-              src={large}
+              src={featured_media[sizeImages[5]]}
               alt=""
               width="921px"
               height="613px"
