@@ -1,4 +1,5 @@
 import { statusFetch } from "../../helper/dictionary";
+import { getAllLastArticles, searchForArticles } from "../../helper/fetchs";
 
 export default function Search({
   setArticles,
@@ -7,30 +8,22 @@ export default function Search({
   register,
   reset,
 }) {
+  const { pending, found, notFound } = statusFetch;
+
   const onSubmit = async (dataForm) => {
-    if (statusFetch.pending) {
-      setArticles({ data: [], found: statusFetch.pending });
-      try {
-        let response = await fetch(
-          `https://beta.mejorconsalud.com/wp-json/mc/v3/posts?search=${
-            dataForm.article
-          }${dataForm.relevant ? `&orderby=${dataForm.relevant}` : ""}`
-        );
-        let data = await response.json();
-        if (data.size > 0) {
-          setArticles({ ...data, found: statusFetch.found });
-        } else {
-          response = await fetch(
-            "https://beta.mejorconsalud.com/wp-json/mc/v3/posts?orderby=date&order=desc"
-          );
-          data = await response.json();
-          setArticles({ ...data, found: statusFetch.notFound });
-        }
-        reset();
-      } catch (err) {
-        console.log(err);
-      }
+    if (pending) {
+      setArticles({ data: [], found: pending });
     }
+    const data = await searchForArticles(dataForm);
+    const { data: response } = data;
+    if (response.data.length > 0) {
+      setArticles({ ...response, found: found });
+    } else {
+      data = await getAllLastArticles();
+      const { data: response } = data;
+      setArticles({ ...response, found: notFound });
+    }
+    reset();
   };
   return (
     <>
@@ -87,9 +80,7 @@ export default function Search({
           </div>
         </div>
       </form>
-      {articles.found === statusFetch.pending && (
-        <p className="text-center">cargando...</p>
-      )}
+      {articles.found === pending && <p className="text-center">cargando...</p>}
     </>
   );
 }
