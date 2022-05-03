@@ -5,27 +5,36 @@ import moment from "moment";
 import Image from "next/image";
 import { getDateDayMonthYear } from "../../helper/data";
 
-export default function Posts({ post }) {
+export default function Posts({
+  post: {
+    author: { name, picture },
+    metas: { title, description, image, type, site_name },
+    featured_media: { large },
+    content,
+    bibliography,
+    published,
+  },
+}) {
   return (
     <>
       <Head>
-        <title>{post.title}</title>
-        <meta name="title" content={post.metas.title} />
-        <meta name="description" content={post.metas.description} />
-        <meta name="image" content={post.metas.image} />
-        <meta property="og:title" content={post.metas.title} />
-        <meta property="og:type" content={post.metas.type} />
-        <meta property="og:description" content={post.metas.description} />
-        <meta property="og:image" content={post.metas.image} />
-        <meta property="og:site_name" content={post.metas.site_name} />
-        <meta property="og:image" content={post.metas.image} />
+        <title>{title}</title>
+        <meta name="title" content={title} />
+        <meta name="description" content={description} />
+        <meta name="image" content={image} />
+        <meta property="og:title" content={title} />
+        <meta property="og:type" content={type} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={image} />
+        <meta property="og:site_name" content={site_name} />
+        <meta property="og:image" content={image} />
       </Head>
 
       <div className="container my-10 mx-auto">
         <section className="mb-32 text-gray-800">
           <div className="flex justify-center">
             <Image
-              src={post.featured_media.large}
+              src={large}
               alt=""
               width="921px"
               height="613px"
@@ -37,10 +46,10 @@ export default function Posts({ post }) {
           <div className="flex items-center mb-6">
             <div>
               <span>
-                {post.author ? (
+                {name ? (
                   <div className="flex items-center mt-6">
                     <Image
-                      src={post.author.picture}
+                      src={picture}
                       className="rounded-full mr-2 h-8"
                       alt=""
                       loading="eager"
@@ -50,28 +59,28 @@ export default function Posts({ post }) {
                     <div className="ml-2">
                       <span>
                         {" "}
-                        Publicado {getDateDayMonthYear(post.published)} by{" "}
+                        Publicado {getDateDayMonthYear(published)} by{" "}
                       </span>
                       <a href="#!" className="font-medium">
-                        {post.author.name}
+                        {name}
                       </a>
                     </div>
                   </div>
                 ) : (
-                  moment(post.published).format("llll")
+                  moment(published).format("llll")
                 )}
               </span>
             </div>
           </div>
 
-          <h1 className="font-bold text-3xl mb-6">{post.title}</h1>
+          <h1 className="font-bold text-3xl mb-6">{title}</h1>
 
-          {parse(post.content)}
+          {parse(content)}
 
-          {post.bibliography && (
+          {bibliography && (
             <>
               <h1 className="font-bold text-3xl mb-2 mt-4">Bibliografia</h1>
-              {parse(post.bibliography)}
+              {parse(bibliography)}
             </>
           )}
         </section>
