@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { statusFetch } from "../../helper/dictionary";
+import { statusFetch } from "../../helper/constants";
 import { getOtherPage } from "../../helper/fetchs";
 
 export default function Pagination({
@@ -10,12 +10,12 @@ export default function Pagination({
   increment,
   decrement,
 }) {
-  const { found, pending } = statusFetch;
+  const { FOUND, PENDING } = statusFetch;
 
   useEffect(() => {
     const getData = async () => {
       if (getValues("article")?.length > 0) {
-        setArticles({ data: [], found: pending });
+        setArticles({ data: [], found: PENDING });
         const args = {
           relevant: getValues("relevant"),
           article: getValues("article"),
@@ -23,7 +23,7 @@ export default function Pagination({
         };
         const data = await getOtherPage(args);
         const { data: response } = data;
-        setArticles({ ...response, found: found });
+        setArticles({ ...response, found: FOUND });
       }
     };
 
@@ -40,7 +40,7 @@ export default function Pagination({
               data-mdb-ripple="true"
               data-mdb-ripple-color="light"
               className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-              disabled={articles.found === pending}
+              disabled={articles.found === PENDING}
               onClick={() => {
                 decrement();
               }}

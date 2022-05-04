@@ -1,4 +1,4 @@
-import { statusFetch } from "../../helper/dictionary";
+import { statusFetch } from "../../helper/constants";
 import { getAllLastArticles, searchForArticles } from "../../helper/fetchs";
 
 export default function Search({
@@ -8,23 +8,24 @@ export default function Search({
   register,
   reset,
 }) {
-  const { pending, found, notFound } = statusFetch;
+  const { PENDING, FOUND, NOTFOUND } = statusFetch;
 
   const onSubmit = async (dataForm) => {
-    if (pending) {
-      setArticles({ data: [], found: pending });
+    if (PENDING) {
+      setArticles({ data: [], found: PENDING });
     }
     const data = await searchForArticles(dataForm);
     const { data: response } = data;
     if (response.data.length > 0) {
-      setArticles({ ...response, found: found });
+      setArticles({ ...response, found: FOUND });
     } else {
       data = await getAllLastArticles();
       const { data: response } = data;
-      setArticles({ ...response, found: notFound });
+      setArticles({ ...response, found: NOTFOUND });
     }
     reset();
   };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -80,7 +81,7 @@ export default function Search({
           </div>
         </div>
       </form>
-      {articles.found === pending && <p className="text-center">cargando...</p>}
+      {articles.found === PENDING && <p className="text-center">cargando...</p>}
     </>
   );
 }
