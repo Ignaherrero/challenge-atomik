@@ -27,15 +27,21 @@ export default function Card({ articles: { data, found } }) {
                 key={id}
               >
                 <a href="#!">
-                  <Image
-                    className="rounded-t-lg object-cover h-64 w-full"
-                    src={featured_media.medium}	
-                    alt=""
-                    width={384}
-                    height={200}
-                    priority={true}
-                    loading="eager"
-                  />
+                  {featured_media ? (
+                    <Image
+                      className="rounded-t-lg object-cover h-64 w-full"
+                      src={featured_media.medium}
+                      alt=""
+                      width={384}
+                      height={200}
+                      priority={true}
+                      loading="eager"
+                    />
+                  ) : (
+                    <p className="text-center pt-20 pb-20">
+                      Ups! esta publicacion no tiene imagen
+                    </p>
+                  )}
                 </a>
                 <div className="pt-6 pl-6 pr-6 pb-10">
                   <h5 className="text-gray-900 text-xl font-medium mb-2">
