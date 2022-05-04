@@ -15,7 +15,7 @@ export default function Posts({
     published,
   },
 }) {
-  const sizeImages = Object.getOwnPropertyNames(featured_media);
+  const sizeImages = featured_media && Object.getOwnPropertyNames(featured_media);
   return (
     <>
       <Head>
@@ -34,15 +34,17 @@ export default function Posts({
       <div className="container my-10 mx-auto">
         <section className="mb-32 text-gray-800">
           <div className="flex justify-center">
-            <Image
-              src={featured_media[sizeImages[5]]}
-              alt=""
-              width="921px"
-              height="613px"
-              loading="eager"
-              priority={true}
-              className="w-3/5 m-auto shadow-lg rounded-lg mb-6 object-cover"
-            />
+            {featured_media && (
+              <Image
+                src={featured_media[sizeImages[5]]}
+                alt=""
+                width="921px"
+                height="613px"
+                loading="eager"
+                priority={true}
+                className="w-3/5 m-auto shadow-lg rounded-lg mb-6 object-cover"
+              />
+            )}
           </div>
           <div className="flex items-center mb-6">
             <div>
