@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { statusFetch } from "../helper/constants";
 import { useCounter } from "../helper/useCounter";
@@ -35,28 +35,25 @@ export default function Home() {
         <title>MejorConsalud</title>
         <meta name="description" content="contenido saludable" />
       </Head>
-      <Suspense fallback={`...loading`}>
-        <Search
-          articles={articles}
-          setArticles={setArticles}
-          handleSubmit={handleSubmit}
-          register={register}
-          reset={reset}
-        />
-      </Suspense>
-      <Suspense fallback={`...loading`}>
-        <Card articles={articles} />
-      </Suspense>
-      <Suspense fallback={`...loading`}>
-        <Pagination
-          articles={articles}
-          getValues={getValues}
-          setArticles={setArticles}
-          counter={counter}
-          increment={increment}
-          decrement={decrement}
-        />
-      </Suspense>
+
+      <Search
+        articles={articles}
+        setArticles={setArticles}
+        handleSubmit={handleSubmit}
+        register={register}
+        reset={reset}
+      />
+
+      <Card articles={articles} />
+
+      <Pagination
+        articles={articles}
+        getValues={getValues}
+        setArticles={setArticles}
+        counter={counter}
+        increment={increment}
+        decrement={decrement}
+      />
     </>
   );
 }
